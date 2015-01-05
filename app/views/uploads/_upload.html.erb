@@ -1,7 +1,9 @@
 <p>
 <%= link_to upload.filename, '/uploads/' + upload.filename, { target: '_blank' } %> 
  - Uploaded at <%= upload.created_at %>
+<% if session[:user] && session[:user]['admin'] == 1 %>
  - <%= link_to 'Delete', upload_path(upload),
               method: :delete,
               data: { confirm: 'Are you sure?' } %>
+<% end %>
 </p>

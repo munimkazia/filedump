@@ -1,5 +1,11 @@
 <h4>Welcome to filedump</h4>
 
+<% if session[:user] %>
+<p> Logged in as <%= session[:user]["username"] %>. <%= link_to 'Log out', '/users/logout' %></p>
+<% else %>
+<p><%= link_to 'Login', '/users/login' %></p>
+<% end %>
+
 <%= form_for @upload do |f| %>
 	<%= f.file_field :filename, :required => true %>
 	<%= f.submit %>

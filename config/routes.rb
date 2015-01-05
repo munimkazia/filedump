@@ -16,6 +16,10 @@ Rails.application.routes.draw do
 
   root 'uploads#new'
 
+  get 'users/login' => 'users#show_login'
+  get 'users/logout' => 'users#logout'
+  post 'users/login' => 'users#login'
+
   # Example resource route with options:
   #   resources :products do
   #     member do

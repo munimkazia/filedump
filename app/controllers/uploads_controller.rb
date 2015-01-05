@@ -3,6 +3,7 @@ class UploadsController < ApplicationController
   def new
     @upload = Upload.new
     @uploads = Upload.all.order(created_at: :desc)
+    @admin = 1 if session[:user] && session[:user]["admin"] == 1
   end
 
   def create

@@ -1,3 +1,7 @@
-<p><%= link_to upload.filename, '/uploads/' + upload.filename, { target: '_blank' } %> 
+<p>
+<%= link_to upload.filename, '/uploads/' + upload.filename, { target: '_blank' } %> 
  - Uploaded at <%= upload.created_at %>
+ - <%= link_to 'Delete', upload_path(upload),
+              method: :delete,
+              data: { confirm: 'Are you sure?' } %>
 </p>

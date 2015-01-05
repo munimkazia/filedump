@@ -15,13 +15,12 @@ class UsersController < ApplicationController
   def login
     username = params[:username]
     password = params[:password]
-    @user = User.where "username = :user and password = :pass", { user: username, pass: password }
-    puts @user
-    if @user.length > 0
-      session[:user] = @user[0]
-      redirect_to '/'
-    else
+    @user = User.find_by(username: username).try(:authenticate, password)
+    if @user == false
       redirect_to '/users/login?err=1'
+    else 
+      session[:user] = @user
+      redirect_to '/'  
     end
 
 

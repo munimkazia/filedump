@@ -1,0 +1,9 @@
+<h4>Welcome to filedump</h4>
+
+<%= form_for @upload do |f| %>
+	<%= f.file_field :filename %>
+	<%= f.submit %>
+<% end %>
+
+<h5>Latest uploads</h5>
+<%= render @uploads %>

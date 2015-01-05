@@ -1,0 +1,9 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  filename: MyString
+  uploaded: 2015-01-05 16:12:43
+
+two:
+  filename: MyString
+  uploaded: 2015-01-05 16:12:43

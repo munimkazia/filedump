@@ -20,6 +20,9 @@ Rails.application.routes.draw do
   get 'users/logout' => 'users#logout'
   post 'users/login' => 'users#login'
 
+  get 'users/register' => 'users#show_register'
+  post 'users/register' => 'users#register'
+
   # Example resource route with options:
   #   resources :products do
   #     member do

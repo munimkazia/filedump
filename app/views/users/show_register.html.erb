@@ -1,0 +1,13 @@
+<% if @error == 1 %>
+<p>Registration Failed</p>
+<% end %> 
+
+<%= form_tag("/users/register", method: "post", id: "regForm") do %>
+  <%= label_tag(:username, "Username") %>
+  <%= text_field_tag(:username) %>
+  <%= label_tag(:password, "Password") %>
+  <%= password_field_tag(:password) %>
+  <%= label_tag(:password_confirmation, "Confirm Password") %>
+  <%= password_field_tag(:password_confirmation) %>
+  <%= submit_tag("Register") %>
+<% end %>

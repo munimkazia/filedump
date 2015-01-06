@@ -4,10 +4,10 @@
 
 <%= form_tag("/users/register", method: "post", id: "regForm") do %>
   <%= label_tag(:username, "Username") %>
-  <%= text_field_tag(:username) %>
+  <%= text_field_tag(:username, nil, required: true) %>
   <%= label_tag(:password, "Password") %>
-  <%= password_field_tag(:password) %>
+  <%= password_field_tag(:password, nil, required: true) %>
   <%= label_tag(:password_confirmation, "Confirm Password") %>
-  <%= password_field_tag(:password_confirmation) %>
+  <%= password_field_tag(:password_confirmation, nil, required: true) %>
   <%= submit_tag("Register") %>
 <% end %>

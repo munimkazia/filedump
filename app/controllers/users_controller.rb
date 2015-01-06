@@ -45,7 +45,7 @@ class UsersController < ApplicationController
       session[:user] = user
       redirect_to '/'
     else
-      redirect_to '/register?err=1'
+      redirect_to '/users/register?err=1'
     end
 
   end

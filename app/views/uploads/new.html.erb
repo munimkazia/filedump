@@ -4,7 +4,7 @@
 <p> Logged in as <%= session[:user]["username"] %>. <%= link_to 'Log out', '/users/logout' %></p>
 
 <%= form_for @upload do |f| %>
-	<%= f.file_field :filename, :required => true %>
+	<%= f.file_field :filename, required: true %>
 	<%= f.submit %>
 <% end %>
 

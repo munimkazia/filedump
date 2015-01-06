@@ -28,6 +28,7 @@ class UploadsController < ApplicationController
     end
 
     @upload = Upload.new(filename: uploaded_io.original_filename)
+    @upload.username = session[:user]["username"]
     @upload.save
 
     redirect_to '/'
@@ -38,14 +39,11 @@ class UploadsController < ApplicationController
     if session[:user] == nil
       render nothing: true, head: :unauthorized 
       return
-    elsif session[:user]["admin"] != 1 
-      render nothing: true, head: :forbidden
-      return
-    end 
+    end
 
     @upload = Upload.find params[:id]
     
-    if @upload.user["username"] != session[:user]["username"]
+    if session[:user]["admin"] != 1 && @upload.username != session[:user]["username"]
       render nothing: true, head: :forbidden 
       return
     end

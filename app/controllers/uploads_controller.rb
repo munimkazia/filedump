@@ -14,7 +14,7 @@ class UploadsController < ApplicationController
     end
 
     @upload = Upload.find params[:id]
-    send_file Rails.root.join('public', 'uploads', @upload["filename"])
+    send_file @upload.upload.path
     
   end
 
@@ -24,14 +24,7 @@ class UploadsController < ApplicationController
       return
     end
 
-    uploaded_io = params[:upload][:filename]
-    File.open(Rails.root.join('public', 'uploads', uploaded_io.original_filename), 'wb') do |file|
-      file.write(uploaded_io.read)
-    end
-
-    @upload = Upload.new(filename: uploaded_io.original_filename)
-    @upload.username = current_user["email"]
-    @upload.save
+    @upload = Upload.create(upload: params[:upload][:upload], username: current_user["email"])
 
     redirect_to '/'
 
@@ -51,8 +44,6 @@ class UploadsController < ApplicationController
     end
     
     @upload.destroy
-
-    File.delete Rails.root.join('public', 'uploads', @upload[:filename])
 
     redirect_to '/'
   end

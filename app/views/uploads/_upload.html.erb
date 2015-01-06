@@ -1,5 +1,5 @@
 <p>
-<%= link_to upload.filename, upload_path(upload), { target: '_blank' } %> 
+<%= link_to upload.upload_file_name, upload_path(upload), { target: '_blank' } %> 
  - Uploaded at <%= upload.created_at %>
 <% if current_user['admin'] == 1  || current_user["email"] == upload.username %>
  - <%= link_to 'Delete', upload_path(upload),

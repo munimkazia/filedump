@@ -6,6 +6,6 @@ This is a simple rails app which allows users to upload files, and logged in adm
 
 Run <tt>rake db:seed</tt> to seed the sample data.   
 
-Normal user without delete privileges username: "user", password: "user"    
+Normal user without delete privileges username: "user@test.com", password: "userpass"    
 
-Admin username: "admin", password: "admin"
+Admin username: "admin@admin.com", password: "adminpass"

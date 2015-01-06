@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  devise_for :users
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
@@ -15,14 +16,7 @@ Rails.application.routes.draw do
   resources :uploads
 
   root 'uploads#new'
-
-  get 'users/login' => 'users#show_login'
-  get 'users/logout' => 'users#logout'
-  post 'users/login' => 'users#login'
-
-  get 'users/register' => 'users#show_register'
-  post 'users/register' => 'users#register'
-
+  
   # Example resource route with options:
   #   resources :products do
   #     member do

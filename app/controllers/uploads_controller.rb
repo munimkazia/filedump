@@ -3,10 +3,12 @@ class UploadsController < ApplicationController
   def new
     @upload = Upload.new
     @uploads = Upload.all.order(created_at: :desc)
+    @user_signed_in = user_signed_in?
+    @current_user = current_user
   end
 
   def show
-    if session[:user] == nil
+    unless user_signed_in?
       render nothing: true, head: :unauthorized 
       return
     end
@@ -17,7 +19,7 @@ class UploadsController < ApplicationController
   end
 
   def create
-    if session[:user] == nil
+    unless user_signed_in?
       render nothing: true, head: :unauthorized 
       return
     end
@@ -28,7 +30,7 @@ class UploadsController < ApplicationController
     end
 
     @upload = Upload.new(filename: uploaded_io.original_filename)
-    @upload.username = session[:user]["username"]
+    @upload.username = current_user["email"]
     @upload.save
 
     redirect_to '/'
@@ -36,14 +38,14 @@ class UploadsController < ApplicationController
   end
 
   def destroy
-    if session[:user] == nil
+    unless user_signed_in?
       render nothing: true, head: :unauthorized 
       return
     end
 
     @upload = Upload.find params[:id]
     
-    if session[:user]["admin"] != 1 && @upload.username != session[:user]["username"]
+    if current_user["admin"] != 1 && @upload.username != current_user["email"]
       render nothing: true, head: :forbidden 
       return
     end

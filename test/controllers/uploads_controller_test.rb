@@ -7,6 +7,7 @@ class UploadsControllerTest < ActionController::TestCase
     assert_response :success
     assert_nil assigns(:current_user)
     assert_nil assigns(:user_signed_in?)
+    assert_select 'tr.uploadrow', 0
   end
 
   test 'should not allow logged out users to upload' do
@@ -16,106 +17,112 @@ class UploadsControllerTest < ActionController::TestCase
   end
 
   test 'should not allow logged out users to download' do 
-    @user = User.find_by(email: 'user2@test.com')
-    sign_in @user
+    sign_in users(:two)
     uploaded = fixture_file_upload('files/file1', 'text/plain')
     post :create, upload: { upload: uploaded }
-    sign_out @user
+    sign_out users(:two)
 
     upload =  Upload.limit(1)
     get :show, id: upload[0]["id"]
     assert_response :unauthorized
-    sign_out @user
   end
 
   test 'should not allow logged out users to delete' do 
-    @user = User.find_by(email: 'user2@test.com')
-    sign_in @user
+    sign_in users(:two)
     uploaded = fixture_file_upload('files/file1', 'text/plain')
     post :create, upload: { upload: uploaded }
-    sign_out @user
+    sign_out users(:two)
 
     upload =  Upload.limit(1)
     post :destroy, id: upload[0]["id"]
     assert_response :unauthorized
-    sign_out @user
+
+    sign_in users(:two)
+    get :new
+    assert_select 'tr.uploadrow', 1
+    sign_out users(:two)
   end
 
   test 'should get new page for logged in users' do
-    @user = User.find_by(email: 'user1@test.com')
-    sign_in @user
+    sign_in users(:one)
     get :new
     assert_response :success
-    assert_equal assigns(:current_user)['email'], @user.email
+    assert_equal assigns(:current_user)['email'], users(:one)["email"]
     assert_equal assigns(:user_signed_in), true
     assert_equal assigns(:current_user)['admin'], 0
-    sign_out @user
+    assert_select 'tr.uploadrow', 0
+    sign_out users(:one)
   end
 
   test 'should allow logged in users to upload' do 
     uploaded = fixture_file_upload('files/file1', 'text/plain')
-    @user = User.find_by(email: 'user1@test.com')
-    sign_in @user
+    sign_in users(:one)
     post :create, upload: { upload: uploaded }
     assert_response :redirect
-    sign_out @user
+
+    get :new
+    assert_select 'tr.uploadrow', 1
+
+    sign_out users(:one)
   end
   
   test 'should allow logged in users to download' do 
-    @user = User.find_by(email: 'user2@test.com')
-    sign_in @user
+    sign_in users(:two)
     uploaded = fixture_file_upload('files/file1', 'text/plain')
     post :create, upload: { upload: uploaded }
-    sign_out @user
+    sign_out users(:two)
 
-    @user = User.find_by(email: 'user1@test.com')
-    sign_in @user
+    sign_in users(:one)
     upload =  Upload.limit(1)
     get :show, id: upload[0]["id"]
     assert_response :success
-    sign_out @user
+    sign_out users(:one)
   end
 
   test 'should allow owners to delete their own files' do
-    @user = User.find_by(email: 'user2@test.com')
-    sign_in @user
+    sign_in users(:two)
     uploaded = fixture_file_upload('files/file1', 'text/plain')
     post :create, upload: { upload: uploaded }
     
     upload =  Upload.limit(1)
     post :destroy, id: upload[0]["id"]
     assert_response :redirect
-    sign_out @user
+
+    get :new
+    assert_select 'tr.uploadrow', 0
+    sign_out users(:two)
   end
 
   test 'should not allow users to delete files not owned by them' do
-    @user = User.find_by(email: 'user2@test.com')
-    sign_in @user
+    sign_in users(:two)
     uploaded = fixture_file_upload('files/file1', 'text/plain')
     post :create, upload: { upload: uploaded }
-    sign_out @user
+    sign_out users(:two)
 
-    @user = User.find_by(email: 'user1@test.com')
-    sign_in @user
+    sign_in users(:one)
     upload =  Upload.limit(1)
     post :destroy, id: upload[0]["id"]
     assert_response :forbidden
-    sign_out @user
+
+    get :new
+    assert_select 'tr.uploadrow', 1
+    sign_out users(:one)
   end
 
   test 'should allow admin users to delete anything' do
-    @user = User.find_by(email: 'user2@test.com')
-    sign_in @user
+    sign_in users(:one)
     uploaded = fixture_file_upload('files/file1', 'text/plain')
     post :create, upload: { upload: uploaded }
-    sign_out @user
+    sign_out users(:one)
 
-    @user = User.find_by(email: 'admin@test.com')
-    sign_in @user
+    sign_in users(:admin)
     upload =  Upload.limit(1)
     post :destroy, id: upload[0]["id"]
     assert_response :redirect
-    sign_out @user
+
+    get :new
+    assert_select 'tr.uploadrow', 0
+    sign_out users(:admin)
   end
 
 end

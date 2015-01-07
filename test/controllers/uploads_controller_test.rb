@@ -63,6 +63,9 @@ class UploadsControllerTest < ActionController::TestCase
     get :new
     assert_select 'tr.uploadrow', 1
 
+    upload =  Upload.limit(1)
+    upload[0].destroy
+
     sign_out users(:one)
   end
   
@@ -76,6 +79,10 @@ class UploadsControllerTest < ActionController::TestCase
     upload =  Upload.limit(1)
     get :show, id: upload[0]["id"]
     assert_response :success
+
+    upload =  Upload.limit(1)
+    upload[0].destroy
+
     sign_out users(:one)
   end
 
@@ -106,6 +113,10 @@ class UploadsControllerTest < ActionController::TestCase
 
     get :new
     assert_select 'tr.uploadrow', 1
+
+    upload =  Upload.limit(1)
+    upload[0].destroy
+
     sign_out users(:one)
   end
 

@@ -1,17 +1,33 @@
-<h4>Welcome to filedump</h4>
-
 <% if @user_signed_in %>
-<p> Logged in as <%= @current_user["email"] %>. <%= link_to 'Log out', '/users/sign_out', method: :delete %></p>
-
-<%= form_for @upload, :url => uploads_path, :html => { :multipart => true } do |f| %>
-	<%= f.file_field :upload, required: true %>
-	<%= f.submit %>
-<% end %>
-
-<h5>Uploads</h5>
-<%= render @uploads %>
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h3 class="panel-title">Upload</h3>
+  </div>
+  <div class="panel-body">
+    <%= form_for @upload, url: uploads_path, html: { multipart: true, class: "form-inline" } do |f| %>
+      <div class="form-group">
+        <%= f.file_field :upload, required: true %>
+      </div>
+      <%= f.submit 'Upload',class:"btn btn-success" %>
+    <% end %>
+  </div>
+</div>
+<table class="table table-hover">
+  <thead>
+    <tr>
+      <th>File</th>
+      <th>Uploaded Date</th>
+      <th>User</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <%= render @uploads %>
+  </tbody>
+</table>
 
 <% else %>
-<p><%= link_to 'Login', '/users/sign_in' %></p>
-<p><%= link_to 'Register', '/users/sign_up' %></p>
+  <div class="alert alert-info">
+    Welcome to filedump. Please login or register to get started.
+  </div>  
 <% end %>

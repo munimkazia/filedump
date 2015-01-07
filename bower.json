@@ -1,0 +1,20 @@
+{
+  "name": "filedump",
+  "version": "0.1.0",
+  "homepage": "https://github.com/munimkazia/filedump",
+  "authors": [
+    "Abdul Munim Kazia <munim2020@gmail.com>"
+  ],
+  "description": "A Rails app which allows user to upload and share files",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "~3.3.1"
+  }
+}

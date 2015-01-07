@@ -1,15 +1,32 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Filedump</title>
   <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
   <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
   <%= csrf_meta_tags %>
 </head>
 <body>
-<p class="notice"><%= notice %></p>
-<p class="alert"><%= alert %></p>
-<%= yield %>
-
+<div class="container">
+  <div class="header">
+    <nav>
+      <% if @user_signed_in %>
+        <p class="pull-right"> Logged in as <%= @current_user["email"] %> <%= link_to 'Log out', '/users/sign_out', method: :delete, class: "btn btn-danger" %></p>
+      <% else %>
+        <ul class="nav nav-pills pull-right">
+          <li role="presentation"><%= link_to 'Log in', '/users/sign_in', class: "btn btn-success" %></li>
+          <li role="presentation"><%= link_to 'Register', '/users/sign_up', class: "btn" %></li>
+        </ul>
+      <% end %>
+    </nav>
+    <h2 class="text-muted">filedump</h3>
+  </div>
+  <p class="bg-notice"><%= notice %></p>
+  <p class="bg-alert"><%= alert %></p>
+  <%= yield %>
+</div>
 </body>
 </html>

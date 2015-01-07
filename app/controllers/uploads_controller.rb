@@ -9,7 +9,7 @@ class UploadsController < ApplicationController
 
   def show
     unless user_signed_in?
-      render nothing: true, head: :unauthorized 
+      render nothing:true, status: 401
       return
     end
 
@@ -20,7 +20,7 @@ class UploadsController < ApplicationController
 
   def create
     unless user_signed_in?
-      render nothing: true, head: :unauthorized 
+      render nothing: true, status: 401
       return
     end
 
@@ -32,14 +32,14 @@ class UploadsController < ApplicationController
 
   def destroy
     unless user_signed_in?
-      render nothing: true, head: :unauthorized 
+      render nothing: true, status: 401
       return
     end
 
     @upload = Upload.find params[:id]
     
     if current_user["admin"] != 1 && @upload.username != current_user["email"]
-      render nothing: true, head: :forbidden 
+      render nothing: true, status: 403 
       return
     end
     

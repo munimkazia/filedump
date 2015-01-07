@@ -1,11 +1,16 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  username: MyString
-  password: MyString
-  admin: 
+  email: user1@test.com
+  encrypted_password:  <%= Devise.bcrypt(User, 'user1pass') %>
+  admin: 0
 
 two:
-  username: MyString
-  password: MyString
-  admin: 
+  email: user2@test.com
+  encrypted_password: <%= Devise.bcrypt(User, 'user2pass') %>
+  admin: 0
+
+admin:
+  email: admin@test.com
+  encrypted_password: <%= Devise.bcrypt(User, 'adminpass') %>
+  admin: 1

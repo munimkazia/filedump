@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-
+=begin
   def show_login
     if session[:user]
       redirect_to '/'
@@ -59,5 +59,5 @@ class UsersController < ApplicationController
   def user_params
     params.permit(:username, :password, :password_confirmation)
   end
-
+=end
 end

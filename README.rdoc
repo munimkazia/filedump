@@ -9,3 +9,9 @@ Run <tt>rake db:seed</tt> to seed the sample data.
 Normal user without delete privileges username: "user@test.com", password: "userpass"    
 
 Admin username: "admin@admin.com", password: "adminpass"
+
+== Tests
+
+The tests cover the uploads controller, which has almost all the custom code written. 
+To run tests, <tt>rake test</tt>
+

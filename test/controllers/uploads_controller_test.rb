@@ -22,9 +22,11 @@ class UploadsControllerTest < ActionController::TestCase
     post :create, upload: { upload: uploaded }
     sign_out users(:two)
 
-    upload =  Upload.limit(1)
-    get :show, id: upload[0]["id"]
+    upload =  Upload.first
+    get :show, id: upload["id"]
     assert_response :unauthorized
+
+    upload.destroy
   end
 
   test 'should not allow logged out users to delete' do 
@@ -33,13 +35,15 @@ class UploadsControllerTest < ActionController::TestCase
     post :create, upload: { upload: uploaded }
     sign_out users(:two)
 
-    upload =  Upload.limit(1)
-    post :destroy, id: upload[0]["id"]
+    upload =  Upload.first
+    post :destroy, id: upload["id"]
     assert_response :unauthorized
 
     sign_in users(:two)
     get :new
     assert_select 'tr.uploadrow', 1
+
+    upload.destroy
     sign_out users(:two)
   end
 
@@ -63,8 +67,8 @@ class UploadsControllerTest < ActionController::TestCase
     get :new
     assert_select 'tr.uploadrow', 1
 
-    upload =  Upload.limit(1)
-    upload[0].destroy
+    upload =  Upload.first
+    upload.destroy
 
     sign_out users(:one)
   end
@@ -76,13 +80,11 @@ class UploadsControllerTest < ActionController::TestCase
     sign_out users(:two)
 
     sign_in users(:one)
-    upload =  Upload.limit(1)
-    get :show, id: upload[0]["id"]
+    upload =  Upload.first
+    get :show, id: upload["id"]
     assert_response :success
 
-    upload =  Upload.limit(1)
-    upload[0].destroy
-
+    upload.destroy
     sign_out users(:one)
   end
 
@@ -91,8 +93,8 @@ class UploadsControllerTest < ActionController::TestCase
     uploaded = fixture_file_upload('files/file1', 'text/plain')
     post :create, upload: { upload: uploaded }
     
-    upload =  Upload.limit(1)
-    post :destroy, id: upload[0]["id"]
+    upload =  Upload.first
+    post :destroy, id: upload["id"]
     assert_response :redirect
 
     get :new
@@ -107,16 +109,14 @@ class UploadsControllerTest < ActionController::TestCase
     sign_out users(:two)
 
     sign_in users(:one)
-    upload =  Upload.limit(1)
-    post :destroy, id: upload[0]["id"]
+    upload =  Upload.first
+    post :destroy, id: upload["id"]
     assert_response :forbidden
 
     get :new
     assert_select 'tr.uploadrow', 1
 
-    upload =  Upload.limit(1)
-    upload[0].destroy
-
+    upload.destroy
     sign_out users(:one)
   end
 
@@ -127,8 +127,8 @@ class UploadsControllerTest < ActionController::TestCase
     sign_out users(:one)
 
     sign_in users(:admin)
-    upload =  Upload.limit(1)
-    post :destroy, id: upload[0]["id"]
+    upload =  Upload.first
+    post :destroy, id: upload["id"]
     assert_response :redirect
 
     get :new
